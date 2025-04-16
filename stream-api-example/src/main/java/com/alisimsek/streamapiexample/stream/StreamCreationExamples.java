@@ -51,4 +51,4 @@ public class StreamCreationExamples {
         System.out.println("\nStream.empty() example (empty stream):");
         emptyStream.forEach(System.out::println);
     }
-} 
+}

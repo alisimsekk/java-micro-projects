@@ -85,4 +85,4 @@ public class IntermediateOperationExamples {
                 .dropWhile(n -> n < 5)
                 .forEach(System.out::println);
     }
-} 
+}
