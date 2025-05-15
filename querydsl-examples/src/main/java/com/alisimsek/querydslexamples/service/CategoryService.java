@@ -5,11 +5,10 @@ import com.alisimsek.querydslexamples.entity.Category;
 import com.alisimsek.querydslexamples.repository.CategoryRepository;
 import com.alisimsek.querydslexamples.util.CategoryConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +23,8 @@ public class CategoryService {
         return categoryConverter.toCategoryDto(savedCategory);
     }
     
-    public List<CategoryDto> findAllCategories() {
-        return categoryConverter.toCategoryDtos(categoryRepository.findAll());
+    public List<CategoryDto> findAllCategories(Pageable pageable) {
+        return categoryConverter.toCategoryDtos(categoryRepository.findAll(pageable).getContent());
     }
     
     public CategoryDto findCategoryById(Long id) {
