@@ -9,15 +9,11 @@ import com.alisimsek.querydslexamples.repository.CategoryRepository;
 import com.alisimsek.querydslexamples.repository.ProductRepository;
 import com.alisimsek.querydslexamples.util.ProductConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +38,6 @@ public class ProductService {
         return productConverter.toProductDto(productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id: " + id)));
     }
 
-    
     public ProductDto updateProduct(Long id, ProductDto productDto) {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
@@ -55,10 +50,7 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
-    
-    /**
-     * Create a new Product entity from DTO
-     */
+
     private Product createProductEntityFromDto(ProductCreateRequest request) {
         Product product = productConverter.toProduct(request);
         
@@ -67,13 +59,9 @@ public class ProductService {
                     .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.getCategoryId()));
             product.setCategory(category);
         }
-        
         return product;
     }
-    
-    /**
-     * Update an existing Product entity with values from DTO
-     */
+
     private void updateProductEntityFromDto(Product product, ProductDto dto) {
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
