@@ -8,10 +8,14 @@ import com.alisimsek.querydslexamples.entity.Product;
 import com.alisimsek.querydslexamples.repository.CategoryRepository;
 import com.alisimsek.querydslexamples.repository.ProductRepository;
 import com.alisimsek.querydslexamples.util.ProductConverter;
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,8 +34,8 @@ public class ProductService {
         return productConverter.toProductDto(savedProduct);
     }
 
-    public List<ProductDto> findAllProducts() {
-        return productConverter.toProductDtos(productRepository.findAll());
+    public List<ProductDto> findAllProducts(Pageable pageable) {
+        return productConverter.toProductDtos(productRepository.findAll(pageable).getContent());
     }
     
     public ProductDto findProductById(Long id) {
@@ -75,4 +79,10 @@ public class ProductService {
             product.setCategory(category);
         }
     }
-} 
+
+    public Page<ProductDto> searchProducts(String name, Long categoryId, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        BooleanBuilder builder = ProductQueryBuilder.createQuery(name, categoryId, minPrice, maxPrice);
+        Page<Product> productsPage = productRepository.findAll(builder, pageable);
+        return productsPage.map(productConverter::toProductDto);
+    }
+}
