@@ -4,7 +4,9 @@ import com.alisimsek.querydslexamples.dto.CategoryDto;
 import com.alisimsek.querydslexamples.entity.Category;
 import com.alisimsek.querydslexamples.repository.CategoryRepository;
 import com.alisimsek.querydslexamples.util.CategoryConverter;
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -46,4 +48,10 @@ public class CategoryService {
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }
-} 
+
+    public Page<CategoryDto> searchCategories(String name, String description, String createdAfter, Pageable pageable) {
+        BooleanBuilder builder = CategoryQueryBuilder.create(name, description, createdAfter);
+        Page<Category> categoriesPage = categoryRepository.findAll(builder, pageable);
+        return categoriesPage.map(categoryConverter::toCategoryDto);
+    }
+}

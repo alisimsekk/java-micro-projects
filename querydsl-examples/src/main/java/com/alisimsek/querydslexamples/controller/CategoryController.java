@@ -2,7 +2,9 @@ package com.alisimsek.querydslexamples.controller;
 
 import com.alisimsek.querydslexamples.dto.CategoryDto;
 import com.alisimsek.querydslexamples.service.CategoryService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +45,15 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CategoryDto>> searchCategories(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) @Parameter( example = "18-05-2025") String createdAfter,
+            Pageable pageable) {
+        Page<CategoryDto> categoriesPage = categoryService.searchCategories(name, description, createdAfter, pageable);
+        return ResponseEntity.ok(categoriesPage.getContent());
     }
 } 
