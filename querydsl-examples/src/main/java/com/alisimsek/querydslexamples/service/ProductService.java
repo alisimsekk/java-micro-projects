@@ -80,8 +80,8 @@ public class ProductService {
         }
     }
 
-    public Page<ProductDto> searchProducts(String name, Long categoryId, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
-        BooleanBuilder builder = ProductQueryBuilder.createQuery(name, categoryId, minPrice, maxPrice);
+    public Page<ProductDto> searchProducts(String name, String categoryName, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        BooleanBuilder builder = ProductQueryBuilder.createQuery(name, categoryName, minPrice, maxPrice);
         Page<Product> productsPage = productRepository.findAll(builder, pageable);
         return productsPage.map(productConverter::toProductDto);
     }

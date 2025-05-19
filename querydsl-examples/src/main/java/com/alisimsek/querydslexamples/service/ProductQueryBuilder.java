@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductQueryBuilder {
-    public static BooleanBuilder createQuery(String name, Long categoryId, BigDecimal minPrice, BigDecimal maxPrice) {
+    public static BooleanBuilder createQuery(String name, String categoryName, BigDecimal minPrice, BigDecimal maxPrice) {
         BooleanBuilder builder = new BooleanBuilder();
         if (name != null) {
             builder.and(QProduct.product.name.containsIgnoreCase(name));
         }
-        if (categoryId != null) {
-            builder.and(QProduct.product.category.id.eq(categoryId));
+        if (categoryName != null) {
+            builder.and(QProduct.product.category.name.eq(categoryName));
         }
         if (minPrice != null) {
             builder.and(QProduct.product.price.goe(minPrice));
