@@ -15,7 +15,7 @@ import java.util.Arrays;
 @Component
 public class DataInitializer {
     @Bean
-    public CommandLineRunner loadData(CategoryRepository categoryRepo, ProductRepository productRepo) {
+    public CommandLineRunner loadData(CategoryRepository categoryRepository, ProductRepository productRepository) {
         return args -> {
             // Category 1
             Category electronics = Category.builder()
@@ -24,7 +24,7 @@ public class DataInitializer {
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
-            categoryRepo.save(electronics);
+            categoryRepository.save(electronics);
 
             // Category 2
             Category books = Category.builder()
@@ -33,7 +33,7 @@ public class DataInitializer {
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
-            categoryRepo.save(books);
+            categoryRepository.save(books);
 
             // Category 3
             Category home = Category.builder()
@@ -42,7 +42,7 @@ public class DataInitializer {
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
-            categoryRepo.save(home);
+            categoryRepository.save(home);
 
             Product smartphone = Product.builder()
                     .name("Smartphone")
@@ -94,7 +94,7 @@ public class DataInitializer {
                     .updatedAt(LocalDateTime.now())
                     .build();
 
-            productRepo.saveAll(Arrays.asList(smartphone, laptop, springBook, hibernateBook, vacuum));
+            productRepository.saveAll(Arrays.asList(smartphone, laptop, springBook, hibernateBook, vacuum));
         };
     }
 }
