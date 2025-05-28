@@ -7,14 +7,19 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO for product summary information with price classification
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCreateRequest {
+public class ProductSummaryDto {
+    private Long id;
     private String name;
-    private String description;
     private BigDecimal price;
+    private String categoryName;
+    private String priceCategory; // "Budget", "Mid-range", "Premium", "Luxury"
     private Integer stock;
-    private Long categoryId;
+    private Boolean isLowStock; // Flag indicating if stock is below threshold
 } 

@@ -2,6 +2,7 @@ package com.alisimsek.querydslexamples.controller;
 
 import com.alisimsek.querydslexamples.dto.ProductCreateRequest;
 import com.alisimsek.querydslexamples.dto.ProductDto;
+import com.alisimsek.querydslexamples.dto.ProductSummaryDto;
 import com.alisimsek.querydslexamples.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -59,5 +60,15 @@ public class ProductController {
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         return ResponseEntity.ok(productService.searchProducts(name, categoryName, minPrice, maxPrice, pageable).getContent());
+    }
+
+    @GetMapping("/projections/constructor")
+    public ResponseEntity<List<ProductDto>> getProductsWithConstructorProjection() {
+        return ResponseEntity.ok(productService.findProductsWithConstructorProjection());
+    }
+
+    @GetMapping("/product-classification")
+    public ResponseEntity<List<ProductSummaryDto>> getProductClassification() {
+        return ResponseEntity.ok(productService.classifyProductsByPrice());
     }
 } 

@@ -3,9 +3,11 @@ package com.alisimsek.querydslexamples.service;
 import com.alisimsek.querydslexamples.dto.CategoryDto;
 import com.alisimsek.querydslexamples.dto.ProductCreateRequest;
 import com.alisimsek.querydslexamples.dto.ProductDto;
+import com.alisimsek.querydslexamples.dto.ProductSummaryDto;
 import com.alisimsek.querydslexamples.entity.Category;
 import com.alisimsek.querydslexamples.entity.Product;
 import com.alisimsek.querydslexamples.repository.CategoryRepository;
+import com.alisimsek.querydslexamples.repository.CustomProductRepository;
 import com.alisimsek.querydslexamples.repository.ProductRepository;
 import com.alisimsek.querydslexamples.util.ProductConverter;
 import com.querydsl.core.BooleanBuilder;
@@ -25,6 +27,7 @@ import java.util.Objects;
 public class ProductService {
     
     private final ProductRepository productRepository;
+    private final CustomProductRepository customProductRepository;
     private final CategoryRepository categoryRepository;
     private final ProductConverter productConverter;
 
@@ -84,5 +87,13 @@ public class ProductService {
         BooleanBuilder builder = ProductQueryBuilder.createQuery(name, categoryName, minPrice, maxPrice);
         Page<Product> productsPage = productRepository.findAll(builder, pageable);
         return productsPage.map(productConverter::toProductDto);
+    }
+
+    public List<ProductDto> findProductsWithConstructorProjection() {
+        return customProductRepository.findProductsWithConstructorProjection();
+    }
+
+    public List<ProductSummaryDto> classifyProductsByPrice() {
+        return customProductRepository.classifyProductsByPrice();
     }
 }

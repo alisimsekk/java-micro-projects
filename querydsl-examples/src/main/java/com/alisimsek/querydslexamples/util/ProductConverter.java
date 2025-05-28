@@ -35,7 +35,6 @@ public class ProductConverter {
 
     public Product toProduct(ProductCreateRequest dto) {
         Product product = new Product();
-        product.setId(dto.getId());
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
