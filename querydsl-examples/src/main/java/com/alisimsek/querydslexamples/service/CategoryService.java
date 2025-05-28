@@ -1,8 +1,10 @@
 package com.alisimsek.querydslexamples.service;
 
 import com.alisimsek.querydslexamples.dto.CategoryDto;
+import com.alisimsek.querydslexamples.dto.CategorySummaryDto;
 import com.alisimsek.querydslexamples.entity.Category;
 import com.alisimsek.querydslexamples.repository.CategoryRepository;
+import com.alisimsek.querydslexamples.repository.CustomCategoryRepository;
 import com.alisimsek.querydslexamples.util.CategoryConverter;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.List;
 public class CategoryService {
     
     private final CategoryRepository categoryRepository;
+    private final CustomCategoryRepository customCategoryRepository;
     private final CategoryConverter categoryConverter;
 
     public CategoryDto createCategory(CategoryDto categoryDto) {
@@ -53,5 +56,9 @@ public class CategoryService {
         BooleanBuilder builder = CategoryQueryBuilder.create(name, description, createdAfter);
         Page<Category> categoriesPage = categoryRepository.findAll(builder, pageable);
         return categoriesPage.map(categoryConverter::toCategoryDto);
+    }
+
+    public List<CategorySummaryDto> getCategoryStatistics() {
+        return customCategoryRepository.getCategoryStatistics();
     }
 }

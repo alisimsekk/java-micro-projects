@@ -1,6 +1,7 @@
 package com.alisimsek.querydslexamples.controller;
 
 import com.alisimsek.querydslexamples.dto.CategoryDto;
+import com.alisimsek.querydslexamples.dto.CategorySummaryDto;
 import com.alisimsek.querydslexamples.service.CategoryService;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,10 @@ public class CategoryController {
             Pageable pageable) {
         Page<CategoryDto> categoriesPage = categoryService.searchCategories(name, description, createdAfter, pageable);
         return ResponseEntity.ok(categoriesPage.getContent());
+    }
+
+    @GetMapping("/category-statistics")
+    public ResponseEntity<List<CategorySummaryDto>> getCategoryStatistics() {
+        return ResponseEntity.ok(categoryService.getCategoryStatistics());
     }
 } 
