@@ -20,6 +20,7 @@
 	<modules>
 		<module>stream-api-example</module>
 		<module>querydsl-examples</module>
+		<module>redis-examples</module>
 	</modules>
 
 	<properties>
